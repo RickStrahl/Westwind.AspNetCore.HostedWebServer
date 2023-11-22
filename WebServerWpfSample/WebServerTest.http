@@ -4,6 +4,12 @@ Websurge-Request-Name: Test (Mapped Route)
 
 ###
 
+GET http://localhost:5003/api/test HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: API Test (Mapped Route)
+
+###
+
 GET http://localhost:5003/test.html HTTP/2.0
 Accept-Encoding: gzip,deflate
 Websurge-Request-Name: Test.html Page

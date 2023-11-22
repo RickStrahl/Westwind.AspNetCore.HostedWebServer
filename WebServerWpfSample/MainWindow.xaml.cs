@@ -44,6 +44,15 @@ namespace WebServerWpfSample
                     await ctx.Response.CompleteAsync();
                 });
 
+                app.MapGet("/api/test", async ctx =>
+                {
+                    ctx.Response.StatusCode = 200;
+                    ctx.Response.ContentType = "application/json";
+                    await ctx.Response.WriteAsJsonAsync(new { Message = "What's up doc?", Time = DateTime.UtcNow });
+                    await ctx.Response.CompleteAsync();
+                });
+
+
                 app.MapFallback(async ctx =>
                 {
                     // You can also use this fallback to generically handle requests
