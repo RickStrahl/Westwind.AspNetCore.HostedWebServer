@@ -1,0 +1,24 @@
+GET http://localhost:5003/test HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Test (Mapped Route)
+
+###
+
+GET http://localhost:5003/test.html HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Test.html Page
+
+###
+
+GET http://localhost:5003/index.html HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Index.html Page
+
+###
+
+GET http://localhost:5003/ HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Default link (unhandled 404)
+
+###
+
