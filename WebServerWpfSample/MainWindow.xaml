@@ -22,6 +22,7 @@
         <TextBlock TextWrapping="Wrap" x:Name="RequestMessages" 
                    Background="#282828" 
                    Foreground="White" 
+                   LineHeight="18" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
                    Text="{Binding RequestText}"
                    FontFamily="Consolas" HorizontalAlignment="Stretch" />
 

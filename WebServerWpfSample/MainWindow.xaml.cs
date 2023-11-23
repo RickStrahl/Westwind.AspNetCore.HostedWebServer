@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Windows;
+using System.Windows.Threading;
 using Westwind.AspNetCore.HostedWebServer;
 using Westwind.Utilities;
 using Westwind.Wpf.Statusbar;
@@ -75,8 +77,8 @@ namespace WebServerWpfSample
             Server.OnRequestCompleted = (ctx, ts) =>
             {
                 // Request comes in on non-ui thread!
-                Dispatcher.Invoke(() =>
-                {
+                Dispatcher.Invoke( ()=>
+                {                    
                     var method = ctx.Request.Method.PadRight(8);
                     var path = ctx.Request.Path.ToString();
                     var query = ctx.Request.QueryString.ToString();
@@ -89,7 +91,8 @@ namespace WebServerWpfSample
                                " (" + status + ") " +
                                ts.TotalMilliseconds.ToString("n3") + "ms";
 
-                    Model.AddRequestLine(text);
+                    double lines = Math.Floor( (RequestMessages.ActualHeight) / ( RequestMessages.LineHeight) );
+                    Model.AddRequestLine(text, Convert.ToInt32(lines - 1));                    
                     Model.RequestCount++;
                 });
             };

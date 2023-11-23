@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
 using Westwind.AspNetCore.HostedWebServer;
 
 namespace WebServerTest
@@ -95,23 +94,24 @@ namespace WebServerTest
         }
 
         [Test]
-        public void SimplesThingTest()
+        public async Task SimplestThingTest()
         {
-            var options = new WebApplicationOptions()
+            var startupPath = Path.GetDirectoryName(typeof(WebServerTests).Assembly.Location);
+            var options = new WebApplicationOptions
             {
-                WebRootPath = null,
-                ContentRootPath =  Path.GetDirectoryName(typeof(WebServerTests).Assembly.Location)
+                ContentRootPath = startupPath,
+                WebRootPath = startupPath,
             };
             var webBuilder = WebApplication.CreateBuilder(options);
             webBuilder.WebHost.UseUrls("http://localhost:5003");
             var app = webBuilder.Build();
 
-
             app.MapGet("/test", async ctx =>
             {
                 ctx.Response.StatusCode = 200;
                 ctx.Response.ContentType = "text/html";
-                await ctx.Response.WriteAsync($"<html><body><h1>Hello Test Request! {DateTime.Now.ToString()}</h1></body></html>");
+                await ctx.Response.WriteAsync(
+                    $"<html><body><h1>Hello Test Request! {DateTime.Now.ToString()}</h1></body></html>");
                 await ctx.Response.CompleteAsync();
             });
 
@@ -122,8 +122,14 @@ namespace WebServerTest
                 await ctx.Response.WriteAsJsonAsync(new { Message = "What's up doc?", Time = DateTime.UtcNow });
                 await ctx.Response.CompleteAsync();
             });
+            app.UseStaticFiles();
             
-            app.Run();
+            // run for 15 secs
+            Task.WaitAll(new [] { app.RunAsync()  }, 15000);
+
+            await app.StopAsync();
+
+            Assert.Pass();
         }
     }
 }

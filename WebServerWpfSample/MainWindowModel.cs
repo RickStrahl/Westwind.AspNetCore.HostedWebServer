@@ -51,11 +51,11 @@ public class MainWindowModel : INotifyPropertyChanged
     }
     private string _requestText = "*** Press 'Start Server' to get going.";
 
-    public void AddRequestLine(string requestLine)
+    public void AddRequestLine(string requestLine, int lines = 19)
     {
         lock (RequestText)
         {
-            var textLines = RequestText.GetLines().TakeLast(18).ToList();
+            var textLines = RequestText.GetLines().TakeLast(lines).ToList();
             textLines.Add(requestLine);
             RequestText = string.Join('\n', textLines);
         }
