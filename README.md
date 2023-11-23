@@ -16,7 +16,7 @@ If you decide to include the library in your own code, you'll need to add a fram
 </ItemGroup>
 ```
 
-If you decide to use the project as reference it'll include that. Regardless of which way you are accessing this functioality:
+If you decide to use the project as reference it'll include that. Regardless of which way you are accessing this functionality:
 
 > [!NOTE]
 > **ASP.NET Runtime Files are required!**
@@ -26,6 +26,12 @@ If you decide to use the project as reference it'll include that. Regardless of 
 
 ## Example Usage
 The following is a simple example of setting up hostable ASP.NET Server instance in a WPF form and displaying requests in a text block.
+
+![Sample App With Local Server And Web Surge](https://raw.githubusercontent.com/RickStrahl/ImageDrop/master/BlogPosts/2023/EmbeddedAspnetWebServer.gif)  
+
+
+Here's the implementation in this WPF form:
+
 
 ```cs
 public MainWindow()
@@ -128,6 +134,20 @@ Like an ASP.NET Core application you can specify the host and port on which the 
 
 * **Static File Resource Path (optional)**  
 If you want to serve static files from a local folder you can specify a folder from which files are served. If you don't provide a path, no local resources will be served otherwise the specified folder is mapped for static file handling.
+
+Once the server is running it continues to run in the background until stopped.
+
+To Stop the server:
+
+```csharp
+private async void Button_Stop_Click(object sender, RoutedEventArgs e)
+{
+    await Server.Stop();
+    Statusbar.ShowStatusSuccess("Server stopped.");
+    Model.ServerStatus = "server is stopped";
+    Model.RequestText = "*** Web Server is stopped. Click Start Server to run.";
+}
+```
 
 ### Https usage
 Note if you want to use `https://` urls you need to ensure that certificates are installed and configured for the specified ports or - if you can use the .NET SDK you can use `dotnet dev-cert https -t` to configure and trust the local dotnet certificate. 
