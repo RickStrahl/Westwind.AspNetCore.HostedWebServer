@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 using Westwind.AspNetCore.HostedWebServer;
 
 namespace WebServerTest
@@ -90,6 +92,38 @@ namespace WebServerTest
 
             // this really won't fire until the server is shut down
             Assert.IsTrue(result, server.ErrorMessage);
+        }
+
+        [Test]
+        public void SimplesThingTest()
+        {
+            var options = new WebApplicationOptions()
+            {
+                WebRootPath = null,
+                ContentRootPath =  Path.GetDirectoryName(typeof(WebServerTests).Assembly.Location)
+            };
+            var webBuilder = WebApplication.CreateBuilder(options);
+            webBuilder.WebHost.UseUrls("http://localhost:5003");
+            var app = webBuilder.Build();
+
+
+            app.MapGet("/test", async ctx =>
+            {
+                ctx.Response.StatusCode = 200;
+                ctx.Response.ContentType = "text/html";
+                await ctx.Response.WriteAsync($"<html><body><h1>Hello Test Request! {DateTime.Now.ToString()}</h1></body></html>");
+                await ctx.Response.CompleteAsync();
+            });
+
+            app.MapGet("/api/test", async ctx =>
+            {
+                ctx.Response.StatusCode = 200;
+                ctx.Response.ContentType = "application/json";
+                await ctx.Response.WriteAsJsonAsync(new { Message = "What's up doc?", Time = DateTime.UtcNow });
+                await ctx.Response.CompleteAsync();
+            });
+            
+            app.Run();
         }
     }
 }

@@ -54,12 +54,10 @@ namespace Westwind.AspNetCore.HostedWebServer
                 {
                     WebRootPath =  webRootPath,
                     ContentRootPath = webRootPath ?? Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)
+
                 };
-
-                var webBuilder = WebApplication.CreateBuilder(options);
-                webBuilder.WebHost.UseUrls(urls);
-
-
+                var webBuilder = WebApplication.CreateBuilder(options);                    
+                webBuilder.WebHost.UseUrls(urls);                
                 WebApp = webBuilder.Build();
 
                 // Allow Host to Intercept start and end requests to display UI/Logging etc.
@@ -69,9 +67,9 @@ namespace Westwind.AspNetCore.HostedWebServer
                 if (!string.IsNullOrEmpty(webRootPath))
                 {
                     var staticFileOptions = new StaticFileOptions
-                    {                            
+                    {
                         FileProvider = new PhysicalFileProvider(webRootPath),
-                        RequestPath = new PathString(""),                         
+                        RequestPath = new PathString(""),
                         DefaultContentType = "application/octet-stream"
                     };
                     WebApp.UseStaticFiles(staticFileOptions);
@@ -80,7 +78,6 @@ namespace Westwind.AspNetCore.HostedWebServer
                 // Map your Requests
                 OnMapRequests?.Invoke(WebApp);
 
-           
                 IsRunning = true;
 
                 WebApp.Run();

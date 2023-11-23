@@ -114,6 +114,7 @@ namespace WebServerWpfSample
             await Server.Stop();
             Statusbar.ShowStatusSuccess("Server stopped.");
             Model.ServerStatus = "server is stopped";
+            Model.RequestText = "*** Web Server is stopped. Click Start Server to run.";
         }
     }
 }
