@@ -19,7 +19,7 @@ If you decide to include the library in your own code, you'll need to add a fram
 If you decide to use the project as reference it'll include that. Regardless of which way you are accessing this functionality:
 
 > [!NOTE]
-> **ASP.NET Runtime Files are required!**
+> **ASP.NET Runtime Files are required!**  
 > In order to use the ASP.NET Hosting components you need to have the ASP.NET Runtime installed or alternately build a self-contained application that will include all the required runtime files. 
 >
 > Potentially this is an **additional install** beyond say a Desktop Runtime installation that adds additional distribution size to your application.
